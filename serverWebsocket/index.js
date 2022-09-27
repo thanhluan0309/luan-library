@@ -34,7 +34,7 @@ const participantsRouter = require("./component/route/ParticipantsRouter");
 dotenv.config();
 app.use(bodyparser.json({ limit: "50mb" }));
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://localhost:8080",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
@@ -53,7 +53,7 @@ const connectDB = async (req, res) => {
   }
 };
 app.use(express.json());
-connectDB();
+// connectDB();
 
 app.use("/webchat/user", userRouter);
 app.use("/webchat/room", roomRouter);

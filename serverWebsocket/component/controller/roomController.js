@@ -15,15 +15,25 @@ class roomController {
         { roomExit: createR._id },
         process.env.Accestoken
       );
-      return res.status(200).json({ success: true, createRoom: createR ,Accesstoken:Accesstoken});
+      return res
+        .status(200)
+        .json({ success: true, createRoom: createR, Accesstoken: Accesstoken });
     }
   }
-  async DeletedRoom(req,res){
+  async DeletedRoom(req, res) {
     try {
-        await room.findByIdAndDelete({_id:req.params.id})
-        res.status(200).json({success:true,message:"xoa thanh cong"})
+      await room.findByIdAndDelete({ _id: req.params.id });
+      res.status(200).json({ success: true, message: "xoa thanh cong" });
     } catch (error) {
-        console.log(error);
+      console.log(error);
+    }
+  }
+  async getAllRoom(req, res) {
+    try {
+      const getRoom = await room.find({});
+      res.status(200).json({ success: true, room: getRoom });
+    } catch (error) {
+      console.log(error);
     }
   }
 }

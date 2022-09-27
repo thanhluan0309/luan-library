@@ -3,7 +3,7 @@ POST http://localhost:8182/webchat/user/
 Content-Type: application/json
 
 {
-    "username":"luannew",
+    "username":"luanneasdasdw",
     "password":"123",
     "name":"luan"
 }
@@ -24,6 +24,10 @@ Content-Type: application/json
 {
     "name":"chat vui qua"
 }
+///get ALL room
+###
+GET  http://localhost:8182/webchat/room
+
 //deleted room
 ###
 POST http://localhost:8182/webchat/room/630c68f5a53c4bad1e220d0d
