@@ -53,6 +53,17 @@ public class participantsdao {
 		return pget;
 
 	}
+	
+	public participants getParticipantsBy_UserId_userParts(long UserId,long userParts) throws SQLException {
+		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+		DataSource dataSource = (DataSource) context.getBean("dataSource");
+		_jdbcTemplate = new JdbcTemplate(dataSource);
+		String sql = "SELECT * FROM participants where UserID=? and UserId_part=?";
+		participants pget =_jdbcTemplate.queryForObject(sql,new participantsMapper(),UserId,userParts);
+
+		return pget;
+
+	}
 
 //	public static void main(String[] args) throws SQLException {
 //		participantsdao u = new participantsdao();
@@ -60,7 +71,7 @@ public class participantsdao {
 ////		
 ////		System.out.print("value"+p);
 //		participants p = new participants();
-//		participants pget  = u.createParticipantsBy_RoomId_UserId_userParts(p);
+//		participants pget  = u.getParticipantsBy_UserId_userParts(2, 1);
 //		System.out.print("value" + pget.getId());
 //	}
 }

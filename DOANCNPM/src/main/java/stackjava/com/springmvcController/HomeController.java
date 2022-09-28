@@ -35,6 +35,7 @@ import stackjava.com.Service.roomImpl;
 public class HomeController {
 
 	
+	
 	@Autowired
 	LoginImpl loginImpl;
 	
@@ -72,13 +73,18 @@ public class HomeController {
 		model.addAttribute("listuser",loginImpl.getDataUser());
 		if(partImpl.checKPariticipants_BY_userID_userIdpart(UserId, UserIdPart)==true) {
 			System.out.print("Da co"+UserId+","+UserIdPart);
+			model.addAttribute("thongbao", "co");
+			participants pget = partImpl.getParticipantsBy_UserId_userParts(UserId, UserIdPart);
 			
+			message mget = messimpl.getmeMessageBy_userId_RoomId(UserId, pget.getRoomId());
+			model.addAttribute("chat",mget);
 			
 		}else
-		{
+		{	
 			room rset = new room();
 			rset.setName(usernameLogin+"-"+usernamePart);
 			room rget = roomimpl.createRoom(rset);
+			model.addAttribute("roomid", rget.getId());
 			
 			participants pset = new participants();
 			pset.setRoomId(rget.getId());
@@ -92,7 +98,6 @@ public class HomeController {
 			message mget=messimpl.createMessage(mset);
 			
 			model.addAttribute("chat",mget);
-			
 		}
 		return "home";
 	}

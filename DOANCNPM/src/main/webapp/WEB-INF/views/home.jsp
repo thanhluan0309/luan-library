@@ -1,8 +1,13 @@
+<%@page import="stackjava.com.Entity.participants"%>
+<%@page import="stackjava.com.Service.participantsImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>.
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<%@page import="stackjava.com.Service.messageImpl"%>
+<%@page import="stackjava.com.Entity.message"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,8 +83,8 @@ footer {
 </style>
 </head>
 <body>
-	
-	
+
+
 	<header>
 		<h2>Cities</h2>
 	</header>
@@ -88,12 +93,13 @@ footer {
 			<c:forEach var="user" items="${listuser}">
 				<form:form method="POST" action="home">
 					<input type="hidden" name="UserIdPart" value="${user.getId()}" />
-					<input id="UserIdx"  type="hidden" name="UserIdx"  />
-					<input type="hidden" name="usernameLogin"  />
-						<button type="submit" class="btn btn-primary"
-						onclick="getidUser(event)" data-bs-toggle="modal"
-						id="showmess" name="usernamePart" value="${user.getUsername()}" data-bs-target="#exampleModal">${user.getUsername()}</button>
-					<br />	
+					<input id="UserIdx" type="hidden" name="UserIdx" />
+					<input type="hidden" name="usernameLogin" />
+					<button type="submit" class="btn btn-primary"
+						onclick="getidUser(event)" data-bs-toggle="modal" id="showmess"
+						name="usernamePart" value="${user.getUsername()}"
+						data-bs-target="#exampleModal">${user.getUsername()}</button>
+					<br />
 				</form:form>
 			</c:forEach>
 		</nav>
@@ -104,17 +110,19 @@ footer {
 			document.getElementsByName('usernameLogin').forEach(function(ele, idx) {
 				ele.value = localStorage.getItem("username");
 			})
+			
 		</script>
 		<article>
-			<div >
+			<div style="display: block" id="myDIV">
 				<h1>Test Websocket</h1>
 				<input type="text" id="inputText" /> <input type="button"
 					value="send data" onclick="sendDATA()" /> <br />
 				<textarea rows="10" cols="50" value="asdasdasdasd" id="content"></textarea>
 				<br /> <br />
+
 			</div>
 		</article>
-		
+
 	</section>
 	<footer>
 		<p>Footer</p>
@@ -122,6 +130,10 @@ footer {
 	<script>
 	    function getidUser(event) {
 	      console.log("id",event.target.value); 
+		  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } 
 	    }
 	</script>
 	<script>
@@ -133,6 +145,8 @@ footer {
         }
         websocket.onopen = function(message){
             processOpen(message);
+          
+         
         }
         websocket.onclose = function(message){
             processClose(message);
@@ -142,9 +156,10 @@ footer {
         }
         //
         function processOpen(message){
-            content.value += "Server is connect\n";
-            var mes = "${chat.getChat()}";
+            content.value += "";
+      	  var	 mes = "${chat.getChat()}"+"${thongbao}"
             if(typeof websocket != "undefined" && websocket.readyState == websocket.OPEN){
+            	;   	
                 websocket.send(mes)
             }
         }

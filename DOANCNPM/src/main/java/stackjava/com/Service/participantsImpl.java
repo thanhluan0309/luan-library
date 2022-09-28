@@ -39,5 +39,21 @@ public class participantsImpl implements Interfaceparticipants{
 		return p;
 	}
 
+	@Override
+	public participants getParticipantsBy_UserId_userParts(long UserId, long userParts) {
+		participants pget =new 	participants();
+		try {
+			return pd.getParticipantsBy_UserId_userParts(UserId, userParts);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pget;
+	}
+
+	
+
+	
+
 
 }
