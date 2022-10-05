@@ -14,15 +14,7 @@ public class messageImpl implements Interfacemessage {
 	@Autowired
 	private messagedao md;
 
-	@Override
-	public message getmeMessageBy_userId_RoomId(long userId, long roomId) {
-		try {
-			return md.getmeMessageBy_userId_RoomId(userId, roomId);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+
 
 	@Override
 	public boolean upDateMessageBy_userId_RoomId(message m) {
@@ -45,6 +37,16 @@ public class messageImpl implements Interfacemessage {
 			e.printStackTrace();
 		}
 		return mget;
+	}
+
+	@Override
+	public message getmeMessageBy_userId_RoomId(long roomId) {
+		try {
+			return md.getmeMessageBy_userId_RoomId( roomId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

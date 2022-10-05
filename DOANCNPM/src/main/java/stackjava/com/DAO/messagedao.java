@@ -28,14 +28,14 @@ public class messagedao {
 	@Autowired
 	private JdbcTemplate _jdbcTemplate;
 
-	public message getmeMessageBy_userId_RoomId(long userId, long roomId) throws SQLException {
+	public message getmeMessageBy_userId_RoomId(long roomId) throws SQLException {
 		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 		DataSource dataSource = (DataSource) context.getBean("dataSource");
 		_jdbcTemplate = new JdbcTemplate(dataSource);
 		message m;
-		String sql = "SELECT * FROM message where UserID=? and RoomID=?";
+		String sql = "SELECT * FROM message where RoomID=?";
 		try {
-			m = (message) _jdbcTemplate.queryForObject(sql, new messageMapper(), userId, roomId);
+			m = (message) _jdbcTemplate.queryForObject(sql, new messageMapper(), roomId);
 		} catch (Exception e) {
 			m= new message();
 		}

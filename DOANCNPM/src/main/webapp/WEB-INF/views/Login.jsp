@@ -15,13 +15,15 @@
 		<p>${user.getUsername()}</p>
 	</c:forEach>
 	<form action="login">
+		<input type="text" id="myname" value="name">
+		<input type="text" id="myid" value="id">
 		<input type="submit" onclick="GetInfor(event)" name="submit" value="Redirectt">
 	</form>
 	<script >
 		function GetInfor(event) {
 			console.log("Run :",event.target.name);
-			localStorage.setItem("username",event.target.name);
-			localStorage.setItem("Userid","2")
+			localStorage.setItem("username",document.getElementById("myname").value);
+			localStorage.setItem("Userid",document.getElementById("myid").value)
 		}
 	</script>
 </body>

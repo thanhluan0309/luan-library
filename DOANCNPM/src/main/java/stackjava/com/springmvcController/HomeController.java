@@ -71,33 +71,54 @@ public class HomeController {
 		
 		System.out.print("Useridpart"+UserIdPart+"userid"+UserId);
 		model.addAttribute("listuser",loginImpl.getDataUser());
-		if(partImpl.checKPariticipants_BY_userID_userIdpart(UserId, UserIdPart)==true) {
+		if(partImpl.checKPariticipants_BY_userID_userIdpart(UserId, UserIdPart)==true 	) {
 			System.out.print("Da co"+UserId+","+UserIdPart);
 			model.addAttribute("thongbao", "co");
-			participants pget = partImpl.getParticipantsBy_UserId_userParts(UserId, UserIdPart);
-			
-			message mget = messimpl.getmeMessageBy_userId_RoomId(UserId, pget.getRoomId());
+			participants pget;
+			try {
+				pget = partImpl.getParticipantsBy_UserId_userParts(UserId, UserIdPart);
+			}catch (Exception e) {
+				pget  = partImpl.getParticipantsBy_UserId_userParts(UserIdPart,UserId);
+			}
+			message mget = messimpl.getmeMessageBy_userId_RoomId(pget.getRoomId());
+			System.out.print("get room"+mget.getRoomId());
 			model.addAttribute("chat",mget);
-			
-		}else
-		{	
-			room rset = new room();
-			rset.setName(usernameLogin+"-"+usernamePart);
-			room rget = roomimpl.createRoom(rset);
-			model.addAttribute("roomid", rget.getId());
-			
-			participants pset = new participants();
-			pset.setRoomId(rget.getId());
-			pset.setUserId(UserId);
-			pset.setUserId_part(UserIdPart);
-			participants pget = partImpl.createParticipantsBy_RoomId_UserId_userParts(pset);
-			
-			message mset = new message();
-			mset.setUserId(UserId);
-			mset.setRoomId(rget.getId());
-			message mget=messimpl.createMessage(mset);
-			
-			model.addAttribute("chat",mget);
+		}else {
+			if(partImpl.checKPariticipants_BY_userID_userIdpart(UserIdPart,UserId)==true ) {
+				System.out.print("Da co"+UserId+","+UserIdPart);
+				model.addAttribute("thongbao", "co");
+				participants pget;
+				try {
+					pget = partImpl.getParticipantsBy_UserId_userParts(UserIdPart, UserId);
+				}catch (Exception e) {
+					pget  = partImpl.getParticipantsBy_UserId_userParts(UserId,UserIdPart);
+				}
+				message mget = messimpl.getmeMessageBy_userId_RoomId(pget.getRoomId());
+				System.out.print("get room"+mget.getRoomId());
+				model.addAttribute("chat",mget);
+				
+			}else
+			{	
+				model.addAttribute("thongbao", "chuaco");
+				
+				room rset = new room();
+				rset.setName(usernameLogin+"-"+usernamePart);
+				room rget = roomimpl.createRoom(rset);
+				model.addAttribute("roomid", rget.getId());
+				
+				participants pset = new participants();
+				pset.setRoomId(rget.getId());
+				pset.setUserId(UserId);
+				pset.setUserId_part(UserIdPart);
+				participants pget = partImpl.createParticipantsBy_RoomId_UserId_userParts(pset);
+				
+				message mset = new message();
+				mset.setUserId(UserId);
+				mset.setRoomId(rget.getId());
+				message mget=messimpl.createMessage(mset);
+				
+				model.addAttribute("chat",mget);
+			}
 		}
 		return "home";
 	}

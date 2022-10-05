@@ -53,7 +53,7 @@ const connectDB = async (req, res) => {
   }
 };
 app.use(express.json());
-// connectDB();
+ connectDB();
 
 app.use("/webchat/user", userRouter);
 app.use("/webchat/room", roomRouter);

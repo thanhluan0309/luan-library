@@ -1,3 +1,4 @@
+<%@page import="stackjava.com.DAO.messagedao"%>
 <%@page import="stackjava.com.Entity.participants"%>
 <%@page import="stackjava.com.Service.participantsImpl"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -8,6 +9,7 @@
 
 <%@page import="stackjava.com.Service.messageImpl"%>
 <%@page import="stackjava.com.Entity.message"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,11 +85,87 @@ footer {
 </style>
 </head>
 <body>
-
-
+	<script>
+	var temp="${thongbao}";
+	var websocket = new WebSocket("ws://localhost:8181");
+	if(temp =="chuaco"){
+	$( document ).ready(function() {
+		console.log( "ready!","${thongbao}" );
+		async function postData(url = '', data={}) {
+				const response = await fetch(url, {
+					method: 'POST', // *GET, POST, PUT, DELETE, etc.
+					mode: 'cors', // no-cors, *cors, same-origin
+					cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+					credentials: 'same-origin', // include, *same-origin, omit
+					headers: {
+					'Content-Type': 'application/json'
+					},
+					redirect: 'follow', 
+					referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+					body: JSON.stringify(data) 
+				});
+				return response.json(); // parses JSON response into native JavaScript objects
+		}
+		const data ={
+			message:"--Start to chat--",
+			room:"${chat.getRoomId()}",
+			user: localStorage.getItem("Userid")
+		}
+		postData('http://localhost:8182/webchat/message', data)
+						.then((data) => {
+							console.log(data); // JSON data parsed by `data.json()` call
+						});
+						const data2 ={
+				room:"${chat.getRoomId()}",
+			}			
+	})
+	}else{
+	
+		var websocket = new WebSocket("ws://localhost:8181");
+		websocket.onopen = function(message){
+            processOpen(message);
+        }
+		function processOpen(message){
+			const data ={
+				room:"${chat.getRoomId()}",
+			}
+            content.value = "";
+      	    var	 mes;
+			  async function getData(url = '', data) {
+					const response = await fetch(url, {
+						method: 'POST', // *GET, POST, PUT, DELETE, etc.
+						mode: 'cors', // no-cors, *cors, same-origin
+						cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+						credentials: 'same-origin', // include, *same-origin, omit
+						headers: {
+						'Content-Type': 'application/json'
+						},
+						redirect: 'follow', 
+						referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+						body: JSON.stringify(data) 
+					});
+					return response.json(); // parses JSON response into native JavaScript objects
+					}
+					getData('http://localhost:8182/webchat/message/getMess', data)
+					.then((data) => {
+							console.log("getMess",data.GetMessage.message);
+							var mes=data.GetMessage.message
+							if(typeof websocket != "undefined" && websocket.readyState == websocket.OPEN){
+								websocket.send(mes);
+							}
+						}); 			
+        }
+	}
+</script>
+	
 	<header>
-		<h2>Cities</h2>
+		<h1 id="title">
+
+		</h1>
 	</header>
+	<script>
+		document.getElementById("title").innerHTML = localStorage.getItem("username");
+	</script>
 	<section>
 		<nav>
 			<c:forEach var="user" items="${listuser}">
@@ -117,9 +195,8 @@ footer {
 				<h1>Test Websocket</h1>
 				<input type="text" id="inputText" /> <input type="button"
 					value="send data" onclick="sendDATA()" /> <br />
-				<textarea rows="10" cols="50" value="asdasdasdasd" id="content"></textarea>
+				<textarea rows="10" cols="50" value="" id="content"></textarea>
 				<br /> <br />
-
 			</div>
 		</article>
 
@@ -127,15 +204,8 @@ footer {
 	<footer>
 		<p>Footer</p>
 	</footer>
-	<script>
-	    function getidUser(event) {
-	      console.log("id",event.target.value); 
-		  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } 
-	    }
-	</script>
+
+	
 	<script>
         var username = localStorage.getItem("username")
         var websocket = new WebSocket("ws://localhost:8181");
@@ -145,8 +215,6 @@ footer {
         }
         websocket.onopen = function(message){
             processOpen(message);
-          
-         
         }
         websocket.onclose = function(message){
             processClose(message);
@@ -156,54 +224,56 @@ footer {
         }
         //
         function processOpen(message){
-            content.value += "";
-      	  var	 mes = "${chat.getChat()}"+"${thongbao}"
+			content.value = "";
+      	  var	 mes = ""
             if(typeof websocket != "undefined" && websocket.readyState == websocket.OPEN){
             	;   	
                 websocket.send(mes)
             }
+						
         }
         function processMessage(message){
-            content.value += message.data+"\n";
+             content.value += message.data+"\n";
+			const data ={
+				message:content.value,
+				room:"${chat.getRoomId()}",
+			}
+			async function updateMess(url = '', data) {
+					const response = await fetch(url, {
+						method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+						mode: 'cors', // no-cors, *cors, same-origin
+						cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+						credentials: 'same-origin', // include, *same-origin, omit
+						headers: {
+						'Content-Type': 'application/json'
+						},
+						redirect: 'follow', 
+						referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+						body: JSON.stringify(data) 
+					});
+					return response.json(); // parses JSON response into native JavaScript objects
+					}
+					updateMess('http://localhost:8182/webchat/message/', data)
+					.then((data) => {
+							console.log("Mess update",data);
+						}); 
         }
         function onerror(message){
             content.value += "Loi xay ra voi" + message
         }   
         function processClose(message){
-            content.value += username +"Da roi phong"
+            content.value += localStorage.getItem("username") +"Da roi phong"
 
         }
         function sendDATA(){
-        	const d = new Date().toLocaleString().replace(",","").replace(/:.. /," ");
-            $("#mySpan").show();
-            var mes =d+" "+ username+":"+inputText.value;
+			const d = new Date().toLocaleString().replace(",","").replace(/:.. /," ");
+            var mes =d+" "+ localStorage.getItem("username")+":"+inputText.value;
             if(typeof websocket != "undefined" && websocket.readyState == websocket.OPEN){
-                websocket.send(mes)
+				websocket.send(mes)
                 inputText.value="";
             }
-            
         }
  	</script>
-	<script>
-	 function getData(){
-         return fetch("http://localhost:8182/webchat/room").then(function (response) {
-            if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            else {
-                return response.json();
-            }
-        }).then(function (data) {
-             content2.value = data.room[0]._id +"____"+ data.room[0].name;
-             userID.value = data.room[0]._id;
-             password.value = data.room[0].name;
-        }).catch(function (error) {
-            return error;
-        })
-        }
-	
-	
-     </script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
 		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

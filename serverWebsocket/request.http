@@ -42,9 +42,26 @@ POST http://localhost:8182/webchat/message
 Content-Type: application/json
 
 {
-    "message":"abc",
-    "user":"630c4bb1cb6961f889a09b8e",
-    "room":"630c6b687c3b0cfb11dfe755"
+   
+    "room":"3"
+}
+//Update message
+###
+PUT  http://localhost:8182/webchat/message/
+Content-Type: application/json
+
+{
+    "message":"abcz zxczxczx zx ",
+   
+    "room":"153"
+}
+//get message
+###
+POST  http://localhost:8182/webchat/message/getMess
+Content-Type: application/json
+
+{
+    "room":2
 }
 
 //create participants
