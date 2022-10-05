@@ -87,7 +87,7 @@ footer {
 <body>
 	<script>
 	var temp="${thongbao}";
-	var websocket = new WebSocket("ws://localhost:8181");
+	var websocket = new WebSocket("ws://deploysocket.herokuapp.com");
 	if(temp =="chuaco"){
 	$( document ).ready(function() {
 		console.log( "ready!","${thongbao}" );
@@ -111,7 +111,7 @@ footer {
 			room:"${chat.getRoomId()}",
 			user: localStorage.getItem("Userid")
 		}
-		postData('http://localhost:8182/webchat/message', data)
+		postData('https://deploywebsocket.herokuapp.com/webchat/message', data)
 						.then((data) => {
 							console.log(data); // JSON data parsed by `data.json()` call
 						});
@@ -121,7 +121,7 @@ footer {
 	})
 	}else{
 	
-		var websocket = new WebSocket("ws://localhost:8181");
+		var websocket = new WebSocket("ws://deploysocket.herokuapp.com");
 		websocket.onopen = function(message){
             processOpen(message);
         }
@@ -146,7 +146,7 @@ footer {
 					});
 					return response.json(); // parses JSON response into native JavaScript objects
 					}
-					getData('http://localhost:8182/webchat/message/getMess', data)
+					getData('https://deploywebsocket.herokuapp.com/webchat/message/getMess', data)
 					.then((data) => {
 							console.log("getMess",data.GetMessage.message);
 							var mes=data.GetMessage.message
@@ -208,7 +208,7 @@ footer {
 	
 	<script>
         var username = localStorage.getItem("username")
-        var websocket = new WebSocket("ws://localhost:8181");
+        var websocket = new WebSocket("ws://deploysocket.herokuapp.com");
 
         websocket.onmessage=function(message){
             processMessage(message);
@@ -253,7 +253,7 @@ footer {
 					});
 					return response.json(); // parses JSON response into native JavaScript objects
 					}
-					updateMess('http://localhost:8182/webchat/message/', data)
+					updateMess('https://deploywebsocket.herokuapp.com/webchat/message/', data)
 					.then((data) => {
 							console.log("Mess update",data);
 						}); 
