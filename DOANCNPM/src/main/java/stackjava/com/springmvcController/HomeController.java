@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,10 +49,7 @@ public class HomeController {
 	@Autowired
 	messageImpl messimpl;
 	
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
-		return "index";
-	}
+	
 	
 	@RequestMapping(value = "/home")
 	public String home(HttpServletRequest request,ModelMap model) {
@@ -59,6 +57,11 @@ public class HomeController {
 		List<user> list = loginImpl.getDataUser(); 
 		model.addAttribute("listuser",loginImpl.getDataUser());
 		return "home";
+	}
+	
+	@RequestMapping(value = "/dologout",method = RequestMethod.GET)
+	public String dologout() {
+		return "redirect:login";
 	}
 	
 	@RequestMapping(value ="/home",method = RequestMethod.POST)

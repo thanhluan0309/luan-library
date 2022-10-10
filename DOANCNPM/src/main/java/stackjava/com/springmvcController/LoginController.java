@@ -41,16 +41,14 @@ public class LoginController {
 	}
 	@RequestMapping(value = "/doLogin",method = RequestMethod.POST)
 	public String checklogin( ModelMap model, @RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) {
-//		boolean validate = loginDAOimpl.validateUser(username, password);
-//		System.out.print("Check validate"+validate);
-//		if(validate == true) {
-//			System.out.print("Do Login success");
-//			session.setAttribute("username", username);
-//			return "redirect:home";
-//		}
-//		return "Login";
-		System.out.print("Do Login success");
-		return "redirect:home";
+		boolean validate = loginDAOimpl.validateUser(username, password);
+		System.out.print("Check validate"+validate);
+		if(validate == true) {
+			System.out.print("Do Login success");
+			session.setAttribute("username", username);
+			return "redirect:home";
+		}
+		return "Login";
 	}
 	@GetMapping(value="/register")
 	public String getRegister() {

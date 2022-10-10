@@ -41,7 +41,7 @@ header {
 nav {
 	float: left;
 	width: 30%;
-	height: 300px; /* only for demonstration, should be removed */
+	height: 500px; /* only for demonstration, should be removed */
 	background: #ccc;
 	padding: 20px;
 }
@@ -57,7 +57,7 @@ article {
 	padding: 20px;
 	width: 70%;
 	background-color: #f1f1f1;
-	height: 300px; /* only for demonstration, should be removed */
+	height: 500px; /* only for demonstration, should be removed */
 }
 
 /* Clear floats after the columns */
@@ -81,6 +81,37 @@ footer {
 		width: 100%;
 		height: auto;
 	}
+}
+.cssforUser {
+	background-color: #d5e4e4;
+    width: 90px;
+    height: 73px;
+    border-radius: 33px;
+    font-size: 1.2rem;
+    padding: 15px;
+	cursor: pointer;
+	transition: width 2s;
+}
+.cssforUser:hover {
+	width: 300px;
+}
+.cssforTextarea {
+	font-size: 1.5rem;
+}
+.cssfortextchat {
+	width: 266px;
+    height: 41px;
+}
+.cssforButtonSend {
+	background-color: #2e2ee2;
+    padding: 9px;
+    color: white;
+    font-size: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.cssforButtonSend:hover {
+	opacity: 0.7;
 }
 </style>
 </head>
@@ -173,8 +204,8 @@ footer {
 					<input type="hidden" name="UserIdPart" value="${user.getId()}" />
 					<input id="UserIdx" type="hidden" name="UserIdx" />
 					<input type="hidden" name="usernameLogin" />
-					<button type="submit" class="btn btn-primary"
-						onclick="getidUser(event)" data-bs-toggle="modal" id="showmess"
+					<button type="submit" class="btn btn-primary cssforUser"
+					 	onclick="getidUser(event)" data-bs-toggle="modal" id="showmess"
 						name="usernamePart" value="${user.getUsername()}"
 						data-bs-target="#exampleModal">${user.getUsername()}</button>
 					<br />
@@ -190,21 +221,46 @@ footer {
 			})
 			
 		</script>
+		<script>
+			function getidUser(event) {
+				localStorage.setItem("NamePart",event.target.value) 
+			}
+		</script>
 		<article>
 			<div style="display: block" id="myDIV">
-				<h1>Test Websocket</h1>
-				<input type="text" id="inputText" /> <input type="button"
-					value="send data" onclick="sendDATA()" /> <br />
-				<textarea rows="10" cols="50" value="" id="content"></textarea>
+				<h2 id="NameRoom"></h2>
+				<textarea rows="10" cols="50" class="cssforTextarea" value="" id="content"></textarea>
 				<br /> <br />
+				<input type="text" class="cssfortextchat" id="inputText" /> 
+				<input type="button"
+				
+					value="send data" class="cssforButtonSend" onclick="sendDATA()" /> <br />
 			</div>
 		</article>
+		
+		<script>
+			var textarea = document.getElementById('content');
+				textarea.scrollTop = textarea.scrollHeight;
 
+			if(localStorage.getItem("NamePart") == null){
+				document.getElementById("NameRoom").innerHTML = "Well come back"
+			}else{
+				document.getElementById("NameRoom").innerHTML ="you are chat with : " + localStorage.getItem("NamePart");
+			}
+			
+		</script>
 	</section>
 	<footer>
-		<p>Footer</p>
+		<form:form method="GET" action="dologout">
+					<button onclick="Dologout()">Log out</button>
+		</form:form>
 	</footer>
+	<script>
+		function Dologout() {
+			localStorage.clear();
+		}
 
+	</script>
 	
 	<script>
         var username = localStorage.getItem("username")
@@ -266,6 +322,8 @@ footer {
 
         }
         function sendDATA(){
+			var text = document.getElementById('content');
+            text.scrollTop = text.scrollHeight;
 			const d = new Date().toLocaleString().replace(",","").replace(/:.. /," ");
             var mes =d+" "+ localStorage.getItem("username")+":"+inputText.value;
             if(typeof websocket != "undefined" && websocket.readyState == websocket.OPEN){
