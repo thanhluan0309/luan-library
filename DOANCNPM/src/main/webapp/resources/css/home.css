@@ -1,0 +1,134 @@
+@charset "ISO-8859-1";
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the header */
+header {
+	background-color: #666;
+	padding: 30px;
+	text-align: center;
+	font-size: 35px;
+	color: white;
+	height: 31%;
+}
+
+/* Create two columns/boxes that floats next to each other */
+nav {
+	 float: left;
+    width: 30%;
+    height: 500px;
+    background: #2ed4de;
+    padding: 20px;
+    border: solid #c8f1e4;
+}
+
+/* Style the list inside the menu */
+nav ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+
+
+/* Clear floats after the columns */
+section::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Style the footer */
+footer {
+	background-color: #777;
+	padding: 10px;
+	text-align: center;
+	color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media ( max-width : 600px) {
+	nav, article {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.cssforUser {
+	background: #d5e4e4;
+	width: 90px;
+	height: 73px;
+	border-radius: 33px;
+	font-size: 1.2rem;
+	padding: 15px;
+	cursor: pointer;
+	transition: width 0.5s, background 0.75s;
+}
+
+.cssforUser:hover {
+	width: 300px;
+	font-size: 1.5rem;
+	background: white;
+}
+
+.cssforTextarea {
+	font-size: 1.5rem;
+	background-color: white;
+	border-radius: 10px;
+}
+
+.cssfortextchat {
+	width: 266px;
+	height: 41px;
+	font-size: 1.5rem;
+	font-weight: 400;
+}
+
+.cssforButtonSend {
+	background-color: #2e2ee2;
+	padding: 9px;
+	color: white;
+	font-size: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cssforButtonSend:hover {
+	opacity: 0.7;
+}
+
+
+
+
+svg text {
+  font-family: Lora;
+  letter-spacing: 10px;
+  stroke: #ffa5d8;
+  font-size: 150px;
+  font-weight: 700;
+  stroke-width: 3;
+ 
+  animation: textAnimate 5s infinite alternate;
+  
+}
+
+@keyframes textAnimate {
+  0% {
+    stroke-dasharray: 0 50%;
+    stroke-dashoffset:  20%;
+    fill:hsl(189, 68%, 75%)
+
+  }
+  
+  100% {
+    stroke-dasharray: 50% 0;
+    stroke-dashoffstet: -20%;
+    fill: hsla(189, 68%, 75%,0%)
+  }
+  
+}

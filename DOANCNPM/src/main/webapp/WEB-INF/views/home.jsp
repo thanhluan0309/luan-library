@@ -4,117 +4,61 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>.
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <%@page import="stackjava.com.Service.messageImpl"%>
 <%@page import="stackjava.com.Entity.message"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="Style.css">
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <title>Home page</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/resources/css/home.css"/>">
+</head>
 <style>
-* {
-	box-sizing: border-box;
+	nav {
+	     float: left;
+    width: 30%;
+    height: 500px;
+    background: #5e797b;
+    padding: 20px;
+    opacity: 0.8;
+    border: solid #a0aca8;
 }
-
-body {
-	font-family: Arial, Helvetica, sans-serif;
+.cssuploadimg {
+  width: 300px;
+  height: 200px;
+  border: 1px solid #ccc;
 }
-
-/* Style the header */
-header {
-	background-color: #666;
-	padding: 30px;
-	text-align: center;
-	font-size: 35px;
-	color: white;
-}
-
-/* Create two columns/boxes that floats next to each other */
-nav {
-	float: left;
-	width: 30%;
-	height: 500px; /* only for demonstration, should be removed */
-	background: #ccc;
-	padding: 20px;
-}
-
-/* Style the list inside the menu */
-nav ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-article {
-	float: left;
-	padding: 20px;
-	width: 70%;
-	background-color: #f1f1f1;
-	height: 500px; /* only for demonstration, should be removed */
-}
-
-/* Clear floats after the columns */
-section::after {
-	content: "";
-	display: table;
-	clear: both;
-}
-
-/* Style the footer */
-footer {
-	background-color: #777;
-	padding: 10px;
-	text-align: center;
-	color: white;
-}
-
-/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-@media ( max-width : 600px) {
-	nav, article {
-		width: 100%;
-		height: auto;
-	}
-}
-.cssforUser {
-	background-color: #d5e4e4;
-    width: 90px;
-    height: 73px;
-    border-radius: 33px;
-    font-size: 1.2rem;
-    padding: 15px;
-	cursor: pointer;
-	transition: width 2s;
-}
-.cssforUser:hover {
-	width: 300px;
-}
-.cssforTextarea {
-	font-size: 1.5rem;
-}
-.cssfortextchat {
-	width: 266px;
-    height: 41px;
-}
-.cssforButtonSend {
-	background-color: #2e2ee2;
-    padding: 9px;
-    color: white;
-    font-size: inherit;
+.dropdown {
+      position: relative;
+    display: inline-block;
+    margin-top: 67px;
+    margin-left: 23px;
+    font-size: 2.5rem;
     font-weight: 600;
-    cursor: pointer;
 }
-.cssforButtonSend:hover {
-	opacity: 0.7;
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+  width: 204px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 </style>
-</head>
 <body>
 	<script>
 	var temp="${thongbao}";
@@ -188,24 +132,40 @@ footer {
         }
 	}
 </script>
-	
 	<header>
-		<h1 id="title">
-
-		</h1>
+		<!-- <h1 id="title"></h1> -->
+		<div class="patterns">
+			<svg width="100%" height="100%">
+    <defs>
+      <pattern id="polka-dots" x="0" y="0" width="100" height="100"
+					patternUnits="userSpaceOnUse">
+        <circle fill="#be9ddf" cx="25" cy="25" r="3"></circle>
+      </pattern>  
+        <style>
+@import
+	url("https://fonts.googleapis.com/css?  family=Lora:400,400i,700,700i")
+	;
+</style>
+    </defs>      
+    <rect x="0" y="0" width="100%" height="100%" fill="url(#polka-dots)"> </rect>
+ <text id="title" x="50%" y="60%" text-anchor="middle">
+ </text>
+ </svg>
+		</div>
 	</header>
 	<script>
 		document.getElementById("title").innerHTML = localStorage.getItem("username");
 	</script>
 	<section>
 		<nav>
+		<hr/>
 			<c:forEach var="user" items="${listuser}">
 				<form:form method="POST" action="home">
 					<input type="hidden" name="UserIdPart" value="${user.getId()}" />
 					<input id="UserIdx" type="hidden" name="UserIdx" />
 					<input type="hidden" name="usernameLogin" />
 					<button type="submit" class="btn btn-primary cssforUser"
-					 	onclick="getidUser(event)" data-bs-toggle="modal" id="showmess"
+						onclick="getidUser(event)" data-bs-toggle="modal" id="showmess"
 						name="usernamePart" value="${user.getUsername()}"
 						data-bs-target="#exampleModal">${user.getUsername()}</button>
 					<br />
@@ -226,33 +186,54 @@ footer {
 				localStorage.setItem("NamePart",event.target.value) 
 			}
 		</script>
-		<article>
+		<article style="display: flex;">
 			<div style="display: block" id="myDIV">
 				<h2 id="NameRoom"></h2>
-				<textarea rows="10" cols="50" class="cssforTextarea" value="" id="content"></textarea>
-				<br /> <br />
-				<input type="text" class="cssfortextchat" id="inputText" /> 
-				<input type="button"
-				
-					value="send data" class="cssforButtonSend" onclick="sendDATA()" /> <br />
-			</div>
-		</article>
-		
-		<script>
-			var textarea = document.getElementById('content');
-				textarea.scrollTop = textarea.scrollHeight;
 
+				<textarea disabled="disabled" rows="10" cols="50"
+					class="cssforTextarea" value="" id="content"></textarea>
+				<br /> 
+				<br /> <input type="text" class="cssfortextchat"
+					id="inputText" onclick="onclickFocus()" /> 
+					<input type="button"
+					value="send data" class="cssforButtonSend" onclick="sendDATA()" />
+				<br />
+			</div>
+			<div class="dropdown">
+				<span>Emoji &#128513;</span>
+				<div class="dropdown-content">
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128512;">&#128512;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128516;">&#128516;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128525;">&#128525;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128151;">&#128151;</button>
+				
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128514;">&#128514;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128515;">&#128515;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128516;">&#128516;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128517;">&#128517;</button>
+				<button style="font-size: 1.5rem" onclick="getemoji(event)" value="&#128508;">&#128508;</button>
+				</div>
+			  </div>
+		</article>
+		<script>
+			function getemoji(event) {
+				console.log("getEmoji",event.target.value);
+				inputText.value += event.target.value;
+			}
+
+		</script>
+		<script>
 			if(localStorage.getItem("NamePart") == null){
 				document.getElementById("NameRoom").innerHTML = "Well come back"
 			}else{
-				document.getElementById("NameRoom").innerHTML ="you are chat with : " + localStorage.getItem("NamePart");
+				document.getElementById("NameRoom").innerHTML ="You are chat with : " + localStorage.getItem("NamePart");
 			}
 			
 		</script>
 	</section>
 	<footer>
 		<form:form method="GET" action="dologout">
-					<button onclick="Dologout()">Log out</button>
+			<button onclick="Dologout()">Log out</button>
 		</form:form>
 	</footer>
 	<script>
@@ -261,7 +242,7 @@ footer {
 		}
 
 	</script>
-	
+
 	<script>
         var username = localStorage.getItem("username")
         var websocket = new WebSocket("ws://deploysocket.herokuapp.com");
@@ -320,6 +301,11 @@ footer {
         function processClose(message){
             content.value += localStorage.getItem("username") +"Da roi phong"
 
+        }
+        
+        function onclickFocus() {
+        	var text = document.getElementById('content');
+            text.scrollTop = text.scrollHeight;
         }
         function sendDATA(){
 			var text = document.getElementById('content');
