@@ -187,7 +187,7 @@
 			}
 		</script>
 		<article style="display: flex;">
-			<div style="display: block" id="myDIV">
+			<div style="display: block; margin-left: 20px" id="myDIV">
 				<h2 id="NameRoom"></h2>
 
 				<textarea disabled="disabled" rows="10" cols="50"
