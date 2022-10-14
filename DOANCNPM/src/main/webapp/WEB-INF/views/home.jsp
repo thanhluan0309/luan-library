@@ -58,6 +58,49 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+	.title_photo {
+			border-radius: 50%;
+			height: 200px;
+			width: 200px;
+		}
+		.user_photo {
+			border-radius: 50%;
+			height: 50px;
+			width: 50px;
+		}
+		.customImage {
+			display: flex;
+			align-items: center;
+			width: 41%;
+		}
+		.image_username {
+			padding-left: 15px;
+		}
+
+		.footer_edit {
+			display: flex;
+		}
+		.custom_edit {
+			display: flex;
+			justify-content: center;
+		}
+		#command {
+			margin: 0;
+		}
+		.header_title {
+			background-color :RGBA( 112, 128, 144, 1 ) ;
+			display: flex;
+			justify-content: center;
+		}
+
+		#NameRoom {
+			text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+		}
+		.btn1 {
+		font-size: 20px;
+	    background-color: Crimson;
+	    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+	    }
 </style>
 <body>
 	<script>
@@ -158,20 +201,38 @@
 	</script>
 	<section>
 		<nav>
-		<hr/>
-			<c:forEach var="user" items="${listuser}">
-				<form:form method="POST" action="home">
-					<input type="hidden" name="UserIdPart" value="${user.getId()}" />
-					<input id="UserIdx" type="hidden" name="UserIdx" />
-					<input type="hidden" name="usernameLogin" />
-					<button type="submit" class="btn btn-primary cssforUser"
-						onclick="getidUser(event)" data-bs-toggle="modal" id="showmess"
-						name="usernamePart" value="${user.getUsername()}"
-						data-bs-target="#exampleModal">${user.getUsername()}</button>
-					<br />
-				</form:form>
-			</c:forEach>
-		</nav>
+				<hr />
+				<c:forEach var="user" items="${listuser}">
+					<form:form method="POST" action="home">
+						<input type="hidden" name="UserIdPart" value="${user.getId()}" />
+						<input id="UserIdx" type="hidden" name="UserIdx" />
+						<input type="hidden" name="usernameLogin" />
+
+						<button
+							type="submit"
+							class="btn btn-primary cssforUser customImage"
+							onclick="getidUser(event)"
+							data-bs-toggle="modal"
+							id="showmess"
+							name="usernamePart"
+							value="${user.getUsername()}"
+							data-bs-target="#exampleModal"
+						>
+							<img
+								onclick="getidUser(event)"
+								data-bs-toggle="modal"
+								id="showmess"
+								class="user_photo"
+								name="usernamePart"
+								alt="anhdep"
+								src="${user.getImage()}"
+							/>
+							<span class="image_username">${user.getUsername()}</span>
+						</button>
+						<br />
+					</form:form>
+				</c:forEach>
+			</nav>
 		<script>
 			document.getElementsByName('UserIdx').forEach(function(ele, idx) {
 				ele.value = localStorage.getItem("Userid");
@@ -232,17 +293,35 @@
 		</script>
 	</section>
 	<footer>
-		<form:form method="GET" action="dologout">
-			<button onclick="Dologout()">Log out</button>
-		</form:form>
-	</footer>
+			<div class="custom_edit">
+				<div class="footer_edit">
+					<form:form method="GET" action="dologout">
+						<button class="btn1" onclick="Dologout()">Log out</button>
+					</form:form>
+
+					<form:form
+						method="GET"
+						action="editUsers"
+					>
+						<input
+						    value="${id.id}"
+							name="getiduser"
+							id="getidUser"
+							style="display: none"
+						/>
+						<button type="submit" class="btn1">Edit user</button>
+					</form:form>
+				</div>
+			</div>
+		</footer>
+	<script>
+		document.getElementById("getidUser").value = localStorage.getItem("Userid");
+	</script>
 	<script>
 		function Dologout() {
 			localStorage.clear();
 		}
-
 	</script>
-
 	<script>
         var username = localStorage.getItem("username")
         var websocket = new WebSocket("ws://deploysocket.herokuapp.com");
@@ -305,7 +384,7 @@
         
         function onclickFocus() {
         	var text = document.getElementById('content');
-            text.scrollTop = text.scrollHeight;
+            text.scrollTop = text.scrollHeight
         }
         function sendDATA(){
 			var text = document.getElementById('content');

@@ -35,7 +35,7 @@ import stackjava.com.Service.roomImpl;
 @Controller
 public class HomeController {
 
-	
+	int id_as;
 	
 	@Autowired
 	LoginImpl loginImpl;
@@ -49,6 +49,8 @@ public class HomeController {
 	@Autowired
 	messageImpl messimpl;
 	
+	@Autowired
+	userdao usdao;
 	
 	
 	@RequestMapping(value = "/home")
@@ -62,6 +64,26 @@ public class HomeController {
 	@RequestMapping(value = "/dologout",method = RequestMethod.GET)
 	public String dologout() {
 		return "redirect:login";
+	}
+	
+	@RequestMapping(value = "/editUsers",method = RequestMethod.GET)
+	public String editUsers(HttpServletRequest request,Model model) throws SQLException {
+		id_as = Integer.parseInt(request.getParameter("getiduser"));
+		user u = usdao.getUserBy_userId(id_as);
+		model.addAttribute("user",u);
+		return "editUsers";
+	}
+	
+	
+	@RequestMapping(value = "/saveUpdateuser",method = RequestMethod.POST)
+	public String saveUpdateuser(HttpServletRequest request,Model model) throws SQLException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String images = request.getParameter("image");
+		
+		user u = new user(id_as,username,password,images);
+		usdao.upDateUser_ById(u);
+		return "redirect:home";
 	}
 	
 	@RequestMapping(value ="/home",method = RequestMethod.POST)

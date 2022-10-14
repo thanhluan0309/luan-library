@@ -16,15 +16,25 @@ public class user {
 	private long id;
 	private String username;
 	private String password;
+	private String image;
 
-	public user(long id, String username, String password) {
+	public user(long id, String username, String password,String image) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
+		this.image = image;
 	}
 	public user() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
 	}
 	public long getId() {
 		return id;
